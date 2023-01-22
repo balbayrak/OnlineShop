@@ -31,4 +31,4 @@ You will need the following tools:
 
 # Project Infrastructure
 
-<img src="../images/project.PNG" alt="Project Structure" title="Project Infrastructure">
+<img width="600" alt="project" src="https://user-images.githubusercontent.com/1053221/213923042-b72dc5bd-f7a2-4b72-a456-fe836a8f0fb2.PNG">

@@ -31,4 +31,4 @@ You will need the following tools:
 
 # Project Infrastructure
 
-<img src="../images/proje" alt="Project Structure" title="Project Infrastructure">
+<img src="../images/project.PNG" alt="Project Structure" title="Project Infrastructure">

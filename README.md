@@ -22,13 +22,37 @@ You will need the following tools:
 * [.Net 6.0 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
 * [Docker Compose](https://docs.docker.com/compose/)
 
+# Project Infrastructure
+
+First of all, the infrastructures to be used in the core part of the project are located in the relevant main classes.
+Application and persistence layers are coded separately for each service.
+Eventbus infrastructure was created in the project. In this structure, masstransit and rabbitmq are used. 
+Separate repositories has been created for reading and command structures in the webapi layer. In this way, read and write operations can be separated when necessary.
+Redis lock is used for synchronization error that may occur in APIs.
+Elasticsearch is used for reflection data to be presented to external systems, also used for log management with elasticsearch kibana.
+
+<p align="center">
+<img width="600" height="300" alt="project" src="https://user-images.githubusercontent.com/1053221/213923042-b72dc5bd-f7a2-4b72-a456-fe836a8f0fb2.PNG">
+</p>
+
+The project consists of main three entities. _Product, Customer and Order._ OrderApi and CustomerApi work with _Postgresql_. 
+ProductApi works with _MongoDb._ Databases of all APIs can work separately and independently from each other.
+All APIs are coded with CQRS pattern. 
+
+<p align="center">
+<img width="700" height="400" alt="data_diagram" src="https://user-images.githubusercontent.com/1053221/213924390-6034dd3c-c65a-46f6-b10b-a46628512dbf.png">
+</p>
+The relationship between all entities is shown in the picture above. 
+After the Product and Customer registration processes are completed, order registration can be done.
+If the order registration is successful, a separate event is created and the order data is sent to the reflection service.
+Reflection service allows us to both process the data and present it securely in a separate place from the main data.
+External api can serve data to external clients quickly and securely.
+
+Logging has been added in all mediator encodings. Logs can be checked via kibana with the _correlationId_ information found in the classes.
+
 # How to Use
  After opening Command Prompt, go to the directory where docker-compose file is located and run the code below.
 ```
  CMD>docker-compose up -d
 
  ```
-
-# Project Infrastructure
-
-<img src="/images/project.png" alt="Project Structure" title="Project Infrastructure">

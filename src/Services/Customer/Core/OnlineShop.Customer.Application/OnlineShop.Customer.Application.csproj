@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Behaviours\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Core\Application\OnlineShop.Application\OnlineShop.Application.csproj" />
+    <ProjectReference Include="..\OnlineShop.Customer.Domain\OnlineShop.Customer.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

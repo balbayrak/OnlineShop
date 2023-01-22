@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Core\Persistence\OnlineShop.Persistence.Repository.Mongo\OnlineShop.Persistence.Repository.Mongo.csproj" />
+    <ProjectReference Include="..\..\..\..\Core\Persistence\OnlineShop.Persistence.Repository\OnlineShop.Persistence.Repository.csproj" />
+    <ProjectReference Include="..\..\Core\OnlineShop.Product.Application\OnlineShop.Product.Application.csproj" />
+    <ProjectReference Include="..\OnlineShop.Product.Integration\OnlineShop.Product.Integration.csproj" />
+  </ItemGroup>
+
+</Project>

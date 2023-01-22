@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\OnlineShop.Application\OnlineShop.Application.csproj" />
+    <ProjectReference Include="..\..\Domain\OnlineShop.Domain\OnlineShop.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

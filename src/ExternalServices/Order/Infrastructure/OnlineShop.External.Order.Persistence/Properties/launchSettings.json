@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "OnlineShop.External.Order.Persistence": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:54305;http://localhost:54308"
+    }
+  }
+}

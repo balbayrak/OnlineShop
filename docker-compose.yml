@@ -1,0 +1,121 @@
+version: '3.4'
+
+services:
+  onlineshop.product.webapi:
+    image: ${DOCKER_REGISTRY-}onlineshopproductwebapi
+    build:
+      context: .
+      dockerfile: src/Services/Product/WebApi/OnlineShop.Product.WebApi/Dockerfile 
+  
+  onlineshop.order.webapi:
+    image: ${DOCKER_REGISTRY-}onlineshoporderwebapi
+    build:
+      context: .
+      dockerfile: src/Services/Order/WebApi/OnlineShop.Order.WebApi/Dockerfile
+
+  onlineshop.customer.webapi:
+    image: ${DOCKER_REGISTRY-}onlineshopcustomerwebapi
+    build:
+      context: .
+      dockerfile: src/Services/Customer/WebApi/OnlineShop.Customer.WebApi/Dockerfile
+
+  orderreflectionservice:
+    image: ${DOCKER_REGISTRY-}orderreflectionservice
+    build:
+      context: .
+      dockerfile: src/Workers/OrderReflectionService/Dockerfile
+    depends_on:
+      - rabbitmq
+
+  onlineshop.external.order.webapi:
+    image: ${DOCKER_REGISTRY-}onlineshopexternalorderwebapi
+    build:
+      context: .
+      dockerfile: src/ExternalServices/Order/WebApi/OnlineShop.External.Order.WebApi/Dockerfile
+
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    ports:
+      - 27017:27017
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+    ports:
+        - 9200:9200
+    volumes:
+        - elasticsearch-data:/usr/share/elasticsearch/data
+    environment:
+        - xpack.monitoring.enabled=true
+        - xpack.watcher.enabled=false
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        - discovery.type=single-node
+        - xpack.security.enabled=false
+    networks:
+        - elastic
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.11.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    networks:
+      - elastic
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
+
+  cache:
+    container_name: rediscache
+    image: redis:6.2
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --loglevel warning
+    volumes:
+      - cache:/data
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.10.6-management-alpine
+    hostname: RabbitMq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "123456"
+
+  postgres:
+    container_name: postgres
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+
+
+
+networks:
+  elastic:
+    driver: bridge
+
+volumes:
+  elasticsearch-data:
+  cache:
+    driver: local
+  db:
+    driver: local
+
+
+
+

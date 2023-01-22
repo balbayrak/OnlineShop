@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Core\DistributedLock\OnlineShop.DistributedLock\OnlineShop.DistributedLock.csproj" />
+    <ProjectReference Include="..\..\..\..\Core\Integration\OnlineShop.Integration\OnlineShop.Integration.csproj" />
+    <ProjectReference Include="..\..\Core\OnlineShop.Product.Application\OnlineShop.Product.Application.csproj" />
+    <ProjectReference Include="..\OnlineShop.Product.IntegrationEvents\OnlineShop.Product.IntegrationEvents.csproj" />
+  </ItemGroup>
+
+</Project>

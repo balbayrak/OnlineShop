@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>dotnet-OrderReflectionService-ed977d25-4f13-43bb-919c-cb9daf71af80</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..</DockerfileContext>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+		<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+		<PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
+		<PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
+		<PackageReference Include="Serilog.Sinks.Elasticsearch" Version="8.4.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Core\Application\OnlineShop.Application\OnlineShop.Application.csproj" />
+		<ProjectReference Include="..\..\Core\Integration\OnlineShop.Integration\OnlineShop.Integration.csproj" />
+		<ProjectReference Include="..\..\Core\Persistence\OnlineShop.ElasticSearchService\OnlineShop.ElasticSearchService.csproj" />
+		<ProjectReference Include="..\..\Services\Product\Infrastructure\OnlineShop.Product.IntegrationEvents\OnlineShop.Product.IntegrationEvents.csproj" />
+	</ItemGroup>
+</Project>

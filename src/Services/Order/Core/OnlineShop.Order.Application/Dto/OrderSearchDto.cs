@@ -4,6 +4,6 @@ namespace OnlineShop.Order.Application.Dto
 {
     public class OrderSearchDto : PagedSearchDto
     {
-        public string BuyerId { get; set; }
+        public Guid BuyerId { get; set; }
     }
 }

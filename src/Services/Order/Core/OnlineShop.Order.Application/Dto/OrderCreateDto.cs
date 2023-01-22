@@ -2,7 +2,7 @@
 {
     public class OrderCreateDto
     {
-        public string BuyerId { get; set; }
+        public Guid BuyerId { get; set; }
         public string BuyerNameSurname { get; set; }
         public IEnumerable<OrderItemDto> Items { get; set; }
     }

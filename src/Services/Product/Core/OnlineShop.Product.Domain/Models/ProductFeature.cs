@@ -2,7 +2,7 @@
 
 namespace OnlineShop.Product.Domain.Models
 {
-    public class ProductFeature: BaseEntity
+    public class ProductFeature
     {
         public string Description { get; set; }
 

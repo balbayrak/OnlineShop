@@ -6,7 +6,7 @@ namespace OnlineShop.Order.Domain.Models
     {
         public Guid OrderId { get; set; }
         public Guid ProductId { get; set; }
-        public decimal Price { get; set; }
+        public decimal TotalPrice { get; set;}
         public int Count { get; set; }
         public virtual Order Order { get; set; }
 

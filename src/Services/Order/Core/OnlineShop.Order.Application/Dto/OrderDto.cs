@@ -8,7 +8,7 @@ namespace OnlineShop.Order.Application.Dto
 {
     public class OrderDto
     {
-        public string BuyerId { get; set; }
+        public Guid BuyerId { get; set; }
         public List<OrderItemDto> OrderItems { get; set; }
     }
 }

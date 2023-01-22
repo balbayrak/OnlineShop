@@ -17,7 +17,7 @@ namespace OnlineShop.Order.Persistence.Repositories.EfCore.Mapping
 
             builder.Property(p => p.ProductId).IsRequired();
 
-            builder.Property(p => p.Price).HasPrecision(18, 2);
+            builder.Property(p => p.TotalPrice).HasPrecision(18, 2);
 
             builder.HasOne(p => p.Order)
                 .WithMany(p => p.Items)

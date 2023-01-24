@@ -79,6 +79,10 @@ services:
   onlineshop.product.webapi:
     container_name: onlineshop-productApi
     image: ${DOCKER_REGISTRY-}onlineshopproductwebapi
+    expose:
+        - "3000"
+    ports:
+        - 3000:80
     build:
       context: .
       dockerfile: src/Services/Product/WebApi/OnlineShop.Product.WebApi/Dockerfile 
@@ -97,6 +101,10 @@ services:
   onlineshop.order.webapi:
     container_name: onlineshop-orderApi
     image: ${DOCKER_REGISTRY-}onlineshoporderwebapi
+    expose:
+        - "3001"
+    ports:
+        - 3001:80
     build:
       context: .
       dockerfile: src/Services/Order/WebApi/OnlineShop.Order.WebApi/Dockerfile
@@ -113,6 +121,10 @@ services:
   onlineshop.customer.webapi:
     container_name: onlineshop-customerApi
     image: ${DOCKER_REGISTRY-}onlineshopcustomerwebapi
+    expose:
+        - "3002"
+    ports:
+        - 3002:80
     build:
       context: .
       dockerfile: src/Services/Customer/WebApi/OnlineShop.Customer.WebApi/Dockerfile
@@ -141,6 +153,10 @@ services:
   onlineshop.external.order.webapi:
     container_name: onlineshop-orderExternalApi
     image: ${DOCKER_REGISTRY-}onlineshopexternalorderwebapi
+    expose:
+        - "3003"
+    ports:
+        - 3003:80
     build:
       context: .
       dockerfile: src/ExternalServices/Order/WebApi/OnlineShop.External.Order.WebApi/Dockerfile

@@ -56,3 +56,19 @@ Logging has been added in all mediator encodings. Logs can be checked via kibana
  CMD>docker-compose up -d
 
  ```
+
+ There are endpoints after running program with docker compose.
+
+ 
+| Api | Address |
+| --- | --- |
+| ProductApi |  http://localhost:3000/swagger/index.html |
+| OrderApi |    http://localhost:3001/swagger/index.html  |
+| CustomerApi |  http://localhost:3002/swagger/index.html|
+| OrderExternalApi |  http://localhost:3003/swagger/index.html |
+
+For seeing logging and external order data kibana address below.
+
+```
+  http://localhost:5601/  Kibana
+```

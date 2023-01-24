@@ -1,37 +1,15 @@
 version: '3.4'
 
-services:
-  onlineshop.product.webapi:
-    image: ${DOCKER_REGISTRY-}onlineshopproductwebapi
-    build:
-      context: .
-      dockerfile: src/Services/Product/WebApi/OnlineShop.Product.WebApi/Dockerfile 
-  
-  onlineshop.order.webapi:
-    image: ${DOCKER_REGISTRY-}onlineshoporderwebapi
-    build:
-      context: .
-      dockerfile: src/Services/Order/WebApi/OnlineShop.Order.WebApi/Dockerfile
-
-  onlineshop.customer.webapi:
-    image: ${DOCKER_REGISTRY-}onlineshopcustomerwebapi
-    build:
-      context: .
-      dockerfile: src/Services/Customer/WebApi/OnlineShop.Customer.WebApi/Dockerfile
-
-  orderreflectionservice:
-    image: ${DOCKER_REGISTRY-}orderreflectionservice
-    build:
-      context: .
-      dockerfile: src/Workers/OrderReflectionService/Dockerfile
-    depends_on:
-      - rabbitmq
-
-  onlineshop.external.order.webapi:
-    image: ${DOCKER_REGISTRY-}onlineshopexternalorderwebapi
-    build:
-      context: .
-      dockerfile: src/ExternalServices/Order/WebApi/OnlineShop.External.Order.WebApi/Dockerfile
+services:  
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.10.6-management-alpine
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - rabbit_network
 
   mongodb:
     container_name: mongodb
@@ -42,6 +20,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: admin
     ports:
       - 27017:27017
+    networks:
+      - mongo_network
 
   elasticsearch:
     container_name: elasticsearch
@@ -57,56 +37,128 @@ services:
         - discovery.type=single-node
         - xpack.security.enabled=false
     networks:
-        - elastic
+        - elastic_network
   kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:7.11.0
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     networks:
-      - elastic
+      - elastic_network
     depends_on:
       - elasticsearch
     ports:
       - 5601:5601
 
-  cache:
+  rediscache:
     container_name: rediscache
-    image: redis:6.2
+    image: redis:latest
     restart: always
     ports:
       - '6379:6379'
     command: redis-server --loglevel warning
     volumes:
       - cache:/data
-
-  rabbitmq:
-    container_name: rabbitmq
-    image: rabbitmq:3.10.6-management-alpine
-    hostname: RabbitMq
-    ports:
-      - 5672:5672
-      - 15672:15672
-    environment:
-      RABBITMQ_DEFAULT_USER: "admin"
-      RABBITMQ_DEFAULT_PASS: "123456"
+    networks:
+      - redis_network 
 
   postgres:
-    container_name: postgres
-    image: postgres:14.1-alpine
-    restart: always
-    environment:
+     container_name: postgres
+     image: postgres:14.1-alpine
+     restart: always
+     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    ports:
+     ports:
       - '5432:5432'
-    volumes: 
+     volumes: 
       - db:/var/lib/postgresql/data
+     networks:
+        - postgre_network
 
+  onlineshop.product.webapi:
+    container_name: onlineshop-productApi
+    image: ${DOCKER_REGISTRY-}onlineshopproductwebapi
+    build:
+      context: .
+      dockerfile: src/Services/Product/WebApi/OnlineShop.Product.WebApi/Dockerfile 
+    depends_on:
+      - rabbitmq
+      - mongodb
+      - rediscache
+      - elasticsearch
+    networks:
+      - rabbit_network
+      - redis_network
+      - mongo_network
+      - elastic_network
+    restart: always
+  
+  onlineshop.order.webapi:
+    container_name: onlineshop-orderApi
+    image: ${DOCKER_REGISTRY-}onlineshoporderwebapi
+    build:
+      context: .
+      dockerfile: src/Services/Order/WebApi/OnlineShop.Order.WebApi/Dockerfile
+    depends_on:
+      - rabbitmq
+      - postgres
+      - elasticsearch
+    networks:
+      - rabbit_network
+      - postgre_network
+      - elastic_network
+    restart: always
 
+  onlineshop.customer.webapi:
+    container_name: onlineshop-customerApi
+    image: ${DOCKER_REGISTRY-}onlineshopcustomerwebapi
+    build:
+      context: .
+      dockerfile: src/Services/Customer/WebApi/OnlineShop.Customer.WebApi/Dockerfile
+    depends_on:
+      - rabbitmq
+      - postgres
+      - elasticsearch
+    networks:
+      - rabbit_network
+      - postgre_network
+      - elastic_network
+
+  orderreflectionservice:
+    container_name: onlineshop-orderReflectionService
+    image: ${DOCKER_REGISTRY-}orderreflectionservice
+    build:
+      context: .
+      dockerfile: src/Workers/OrderReflectionService/Dockerfile
+    depends_on:
+      - rabbitmq
+      - elasticsearch
+    networks:
+      - rabbit_network
+      - elastic_network
+    restart: always
+  onlineshop.external.order.webapi:
+    container_name: onlineshop-orderExternalApi
+    image: ${DOCKER_REGISTRY-}onlineshopexternalorderwebapi
+    build:
+      context: .
+      dockerfile: src/ExternalServices/Order/WebApi/OnlineShop.External.Order.WebApi/Dockerfile
+    depends_on:
+      - elasticsearch
+    networks:
+      - elastic_network
 
 networks:
-  elastic:
+  elastic_network:
+    driver: bridge
+  rabbit_network:
+    driver: bridge
+  redis_network:
+    driver: bridge
+  mongo_network:
+    driver: bridge
+  postgre_network:
     driver: bridge
 
 volumes:

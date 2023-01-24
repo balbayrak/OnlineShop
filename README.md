@@ -70,5 +70,5 @@ Logging has been added in all mediator encodings. Logs can be checked via kibana
 For seeing logging and external order data kibana address below.
 
 ```
-  http://localhost:5601/  Kibana
+  http://localhost:5601/
 ```
